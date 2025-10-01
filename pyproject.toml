@@ -1,0 +1,23 @@
+[project]
+name = "one-week-rl"
+version = "0.1.0"
+description = "Reinforcement Learning from scratch in a week"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "gymnasium[box2d]>=1.2.1",
+    "matplotlib>=3.10.6",
+    "numpy>=2.3.3",
+    "tqdm>=4.67.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "ruff>=0.13.2",
+    "ty>=0.0.1a21",
+]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I"]
