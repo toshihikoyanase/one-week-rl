@@ -1,7 +1,7 @@
 [project]
 name = "one-week-rl"
 version = "0.1.0"
-description = "Reinforcement Learning from scratch in a week"
+description = "Reinforcement Learning from scratch in one week"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
