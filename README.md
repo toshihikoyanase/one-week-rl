@@ -10,6 +10,7 @@ Each day focuses on a specific topic, starting from the basics and gradually mov
 
 - [Day 1: Random Agent](./one_week_rl/day1_random/README.md)
 - [Day 2: Q-Learning](./one_week_rl/day2_q_table/README.md)
+- [Day 3: Deep Q-Network (DQN)](./one_week_rl/day3_dqn_min/README.md)
 
 ## Getting Started
 

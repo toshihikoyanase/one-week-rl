@@ -8,6 +8,7 @@ dependencies = [
     "gymnasium[box2d]>=1.2.1",
     "matplotlib>=3.10.6",
     "numpy>=2.3.3",
+    "torch>=2.8.0",
     "tqdm>=4.67.1",
 ]
 
