@@ -108,7 +108,7 @@ def train() -> tuple[nn.Module, list[float]]:
                     next_q = target_network(next_states).max(1)[0].unsqueeze(1)
                     target = rewards + gamma * next_q * (1 - dones)
 
-                loss = nn.MSELoss()(q_values, target.detach())
+                loss = nn.MSELoss()(q_values, target)
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
