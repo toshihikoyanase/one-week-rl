@@ -14,6 +14,7 @@ Each day focuses on a specific topic, starting from the basics and gradually mov
 - [Day 4: REINFORCE](./one_week_rl/day4_reinforce/README.md)
 - [Day 5: Actor-Critic](./one_week_rl/day5_a2c/README.md)
 - [Day 6: Proximal Policy Optimization (PPO)](./one_week_rl/day6_ppo/README.md)
+- [Day 7: Reinforcement Learning with Libraries](./one_week_rl/day7_rl_libs/README.md)
 
 ## Getting Started
 
