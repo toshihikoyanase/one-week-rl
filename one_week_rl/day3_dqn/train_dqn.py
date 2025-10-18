@@ -1,9 +1,9 @@
-from collections import deque
 import random
+from collections import deque
 
 import gymnasium as gym
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -18,7 +18,7 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(n_hidden, n_hidden),
             nn.ReLU(),
-            nn.Linear(n_hidden, action_size)
+            nn.Linear(n_hidden, action_size),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -26,17 +26,12 @@ class DQN(nn.Module):
 
 
 class ReplayBuffer:
-    def __init__(self, capacity: int=10_000):
+    def __init__(self, capacity: int = 10_000):
         self.buffer = deque(maxlen=capacity)
 
     def push(
-            self,
-            state: np.ndarray,
-            action: int,
-            reward: float,
-            next_state: np.ndarray,
-            done: bool
-        ) -> None:
+        self, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, done: bool
+    ) -> None:
         self.buffer.append((state, action, reward, next_state, done))
 
     def sample(self, batch_size: int) -> tuple[np.ndarray, ...]:

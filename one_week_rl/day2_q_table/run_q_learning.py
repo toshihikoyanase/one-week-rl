@@ -1,9 +1,8 @@
 import random
 
 import gymnasium as gym
-import numpy as np
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 # 1. Environment
 env = gym.make("CartPole-v1", render_mode="human")
@@ -17,28 +16,29 @@ BINS = {
     "pole_velocity": np.linspace(-3.5, 3.5, 9),
 }
 
+
 def discretize(obs):
     cart_pos, cart_vel, pole_angle, pole_vel = obs
     state = (
-        np.digitize(cart_pos, BINS["cart_position"]) -1,
-        np.digitize(cart_vel, BINS["cart_velocity"]) -1,
-        np.digitize(pole_angle, BINS["pole_angle"]) -1,
-        np.digitize(pole_vel, BINS["pole_velocity"]) -1,
+        np.digitize(cart_pos, BINS["cart_position"]) - 1,
+        np.digitize(cart_vel, BINS["cart_velocity"]) - 1,
+        np.digitize(pole_angle, BINS["pole_angle"]) - 1,
+        np.digitize(pole_vel, BINS["pole_velocity"]) - 1,
     )
     state = (
-        np.clip(state[0], 0, len(BINS["cart_position"])-2),
-        np.clip(state[1], 0, len(BINS["cart_velocity"])-2),
-        np.clip(state[2], 0, len(BINS["pole_angle"])-2),
-        np.clip(state[3], 0, len(BINS["pole_velocity"])-2),
+        np.clip(state[0], 0, len(BINS["cart_position"]) - 2),
+        np.clip(state[1], 0, len(BINS["cart_velocity"]) - 2),
+        np.clip(state[2], 0, len(BINS["pole_angle"]) - 2),
+        np.clip(state[3], 0, len(BINS["pole_velocity"]) - 2),
     )
     return state
 
 
 shape = (
-    len(BINS["cart_position"])-1,
-    len(BINS["cart_velocity"])-1,
-    len(BINS["pole_angle"])-1,
-    len(BINS["pole_velocity"])-1,
+    len(BINS["cart_position"]) - 1,
+    len(BINS["cart_velocity"]) - 1,
+    len(BINS["pole_angle"]) - 1,
+    len(BINS["pole_velocity"]) - 1,
     n_actions,
 )
 
@@ -83,7 +83,7 @@ for ep in range(n_episodes):
             best_next = np.max(q_table[s_next])  # max_{a'} Q(s', a')
 
         # TD target and error
-        td_target = r + gamma * best_next    # r + γ * maxQ(s', a')
+        td_target = r + gamma * best_next  # r + γ * maxQ(s', a')
         td_error = td_target - q_table[s][a]  # TD error
         q_table[s][a] += alpha * td_error  # Q(s, a) update
 
@@ -91,7 +91,7 @@ for ep in range(n_episodes):
         s = s_next
 
     epsilon = max(epsilon_min, epsilon * epsilon_decay)
-    print(f"Episode {ep+1}: Total Reward: {total_r}, Epsilon: {epsilon:.3f}")
+    print(f"Episode {ep + 1}: Total Reward: {total_r}, Epsilon: {epsilon:.3f}")
     rewards.append(total_r)
 
 plt.plot(rewards)

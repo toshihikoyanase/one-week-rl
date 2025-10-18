@@ -1,10 +1,9 @@
 import gymnasium as gym
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
 
 """ REINFORCE (Monte Carlo Policy Gradient)
     - Policy Network
@@ -12,6 +11,7 @@ import torch.optim as optim
     - No Replay Buffer
     - Update policy after each episode
 """
+
 
 class PolicyNetwork(nn.Module):
     def __init__(self, state_size: int, action_size: int) -> None:
@@ -23,11 +23,12 @@ class PolicyNetwork(nn.Module):
             nn.Linear(n_hidden, n_hidden),
             nn.ReLU(),
             nn.Linear(n_hidden, action_size),
-            nn.Softmax(dim=-1)
+            nn.Softmax(dim=-1),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.fc(x)
+
 
 def train() -> tuple[nn.Module, list[float]]:
     env = gym.make("CartPole-v1")

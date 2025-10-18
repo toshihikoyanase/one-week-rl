@@ -11,6 +11,7 @@ import torch.optim as optim
     - Update after each episode
 """
 
+
 class PolicyNetwork(nn.Module):
     def __init__(self, state_size: int, action_size: int) -> None:
         super().__init__()
@@ -21,7 +22,7 @@ class PolicyNetwork(nn.Module):
             nn.Linear(n_hidden, n_hidden),
             nn.ReLU(),
             nn.Linear(n_hidden, action_size),
-            nn.Softmax(dim=-1)
+            nn.Softmax(dim=-1),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -37,7 +38,7 @@ class ValueNetwork(nn.Module):
             nn.ReLU(),
             nn.Linear(n_hidden, n_hidden),
             nn.ReLU(),
-            nn.Linear(n_hidden, 1)
+            nn.Linear(n_hidden, 1),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -97,7 +98,9 @@ def train() -> tuple[nn.Module, nn.Module, list[float]]:
         values = value_network(states_tensor).squeeze()
 
         advantages = returns - values.detach()
-        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-9)  # Normalize advantages
+        advantages = (advantages - advantages.mean()) / (
+            advantages.std() + 1e-9
+        )  # Normalize advantages
 
         # Update Value Network (Critic).
         value_loss = nn.MSELoss()(values, returns)
@@ -108,7 +111,9 @@ def train() -> tuple[nn.Module, nn.Module, list[float]]:
 
         # Update Policy Network (Actor).
         action_probs = policy_network(states_tensor)
-        log_probs_tensor = torch.log(action_probs.gather(1, actions_tensor.unsqueeze(1)).squeeze() + 1e-8)
+        log_probs_tensor = torch.log(
+            action_probs.gather(1, actions_tensor.unsqueeze(1)).squeeze() + 1e-8
+        )
         policy_loss = -(log_probs_tensor * advantages).mean()
         policy_optimizer.zero_grad()
         policy_loss.backward()
@@ -121,6 +126,7 @@ def train() -> tuple[nn.Module, nn.Module, list[float]]:
             print(f"Episode {episode + 1}, Score: {total_reward}")
 
     return policy_network, value_network, scores
+
 
 if __name__ == "__main__":
     policy_net, value_net, reward_history = train()

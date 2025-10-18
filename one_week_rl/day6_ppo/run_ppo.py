@@ -11,6 +11,7 @@ import torch.optim as optim
     - Multiple Epochs Update
 """
 
+
 class PolicyNetwork(nn.Module):
     def __init__(self, state_size: int, action_size: int) -> None:
         super().__init__()
@@ -21,7 +22,7 @@ class PolicyNetwork(nn.Module):
             nn.Linear(n_hidden, n_hidden),
             nn.ReLU(),
             nn.Linear(n_hidden, action_size),
-            nn.Softmax(dim=-1)
+            nn.Softmax(dim=-1),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -37,7 +38,7 @@ class ValueNetwork(nn.Module):
             nn.ReLU(),
             nn.Linear(n_hidden, n_hidden),
             nn.ReLU(),
-            nn.Linear(n_hidden, 1)
+            nn.Linear(n_hidden, 1),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -98,12 +99,16 @@ def train() -> tuple[nn.Module, nn.Module, list[float]]:
 
         values = value_network(states_tensor).squeeze()
         advantages = returns - values.detach()
-        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-9)  # Normalize advantages
+        advantages = (advantages - advantages.mean()) / (
+            advantages.std() + 1e-9
+        )  # Normalize advantages
 
         # Store old log probabilities for PPO
         with torch.no_grad():
             old_action_probs = policy_network(states_tensor)
-            old_log_probs = torch.log(old_action_probs.gather(1, actions_tensor.unsqueeze(1)).squeeze() + 1e-8)
+            old_log_probs = torch.log(
+                old_action_probs.gather(1, actions_tensor.unsqueeze(1)).squeeze() + 1e-8
+            )
 
         # PPO Multiple Epochs Update
         for _ in range(ppo_epochs):
@@ -117,7 +122,9 @@ def train() -> tuple[nn.Module, nn.Module, list[float]]:
 
             # Update Policy Network (Actor) with PPO Clipped Objective
             new_action_probs = policy_network(states_tensor)
-            new_log_probs = torch.log(new_action_probs.gather(1, actions_tensor.unsqueeze(1)).squeeze() + 1e-8)
+            new_log_probs = torch.log(
+                new_action_probs.gather(1, actions_tensor.unsqueeze(1)).squeeze() + 1e-8
+            )
 
             # Calculate probability ratio
             ratio = torch.exp(new_log_probs - old_log_probs)
@@ -138,6 +145,7 @@ def train() -> tuple[nn.Module, nn.Module, list[float]]:
             print(f"Episode {episode + 1}, Score: {total_reward}")
 
     return policy_network, value_network, scores
+
 
 if __name__ == "__main__":
     policy_net, value_net, reward_history = train()

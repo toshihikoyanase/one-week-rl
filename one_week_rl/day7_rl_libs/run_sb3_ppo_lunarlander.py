@@ -3,11 +3,13 @@ import matplotlib.pyplot as plt
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import BaseCallback
 
+
 class RewardCallback(BaseCallback):
     """
     A custom callback that derives from ``BaseCallback``.
     Records episode rewards for plotting.
     """
+
     def __init__(self, verbose=0):
         super(RewardCallback, self).__init__(verbose)
         self.episode_rewards = []
@@ -15,13 +17,13 @@ class RewardCallback(BaseCallback):
 
     def _on_step(self) -> bool:
         # Record episode reward when episode is done
-        if self.locals.get('dones') is not None:
-            for i, done in enumerate(self.locals['dones']):
+        if self.locals.get("dones") is not None:
+            for i, done in enumerate(self.locals["dones"]):
                 if done:
-                    info = self.locals['infos'][i]
-                    if 'episode' in info:
-                        reward = info['episode']['r']
-                        length = info['episode']['l']
+                    info = self.locals["infos"][i]
+                    if "episode" in info:
+                        reward = info["episode"]["r"]
+                        length = info["episode"]["l"]
                         self.episode_rewards.append(reward)
                         self.episode_lengths.append(length)
         return True
@@ -44,5 +46,3 @@ plt.xlabel("Episode")
 plt.ylabel("Total Reward")
 plt.title("PPO on LunarLander-v3")
 plt.show()
-
-

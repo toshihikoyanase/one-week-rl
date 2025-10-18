@@ -1,7 +1,6 @@
 import gymnasium as gym
 import matplotlib.pyplot as plt
 
-
 rewards = []
 env = gym.make("CartPole-v1", render_mode="human")
 
